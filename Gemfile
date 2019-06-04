@@ -32,19 +32,19 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'pg'
 
 # param validation
-gem "dry-validation", "~> 0.13.3"
+gem 'dry-validation', "~> 0.13.3"
 
 # xlsx
-gem 'rubyzip', '= 1.0.0'
-gem 'axlsx', '= 2.0.1'
+gem 'rubyzip', '>= 1.2.1'
+gem 'axlsx', git: 'https://github.com/randym/axlsx.git', ref: 'c8ac844'
 gem 'axlsx_rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
 
-  gem "rspec-rails"
-  gem "factory_bot_rails"
+  gem 'rspec-rails'
+  gem 'factory_bot_rails'
 end
 
 group :development do
@@ -55,7 +55,7 @@ group :development do
 end
 
 group :test do
-  gem "database_cleaner"
+  gem 'database_cleaner'
 end
 
 
