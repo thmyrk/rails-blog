@@ -29,15 +29,13 @@ gem 'bootsnap', '>= 1.1.0', require: false
 # gem 'rack-cors'
 
 # db
-gem 'pg'
+gem 'pg', '~> 1.1.4'
 
 # param validation
-gem 'dry-validation', "~> 0.13.3"
+gem 'dry-validation', '~> 0.13.3'
 
 # xlsx
-gem 'rubyzip', '>= 1.2.1'
-gem 'axlsx', git: 'https://github.com/randym/axlsx.git', ref: 'c8ac844'
-gem 'axlsx_rails'
+gem "spreadsheet", '~> 1.2.4'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

@@ -22,9 +22,8 @@ module Api
       end
 
       def export_to_xlsx
-        @post = RepositoryRegistry.for(:posts).find_with_comments(params[:id])
-
-        render xlsx: "post", template: Rails.root.join("app", "concepts", "posts", "templates", "post")
+        file_path = Posts::UseCases::ExportToXlsx.new(export_params).call
+        send_file file_path
       end
 
       private
@@ -39,6 +38,10 @@ module Api
 
       def update_params
         params.permit(:id, :title, :content)
+      end
+
+      def export_params
+        params.permit(:id)
       end
     end
   end
