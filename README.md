@@ -1,24 +1,18 @@
-# README
+# Description
+Blog REST JSON API created with an alternative approach using concepts and repositories
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# Requirements
+* PostgreSQL server running
 
-Things you may want to cover:
+# Installation
+* `bundle`
+* set DB credentials in `database.yml`
+* `bin/rake db:create db:migrate`
+* `bin/rails s`
 
-* Ruby version
+# Testing
 
-* System dependencies
+To test manually I used Postman. If you wish to recreate my tests I saved my requests into a shareable collection, which you can
+get under this link https://www.getpostman.com/collections/00324c1c5ebcb7c24914
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+To test automatically run rspec tests `bin/rspec`
