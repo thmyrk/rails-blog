@@ -1,0 +1,15 @@
+p = Axlsx::Package.new
+wb = p.workbook
+
+ wb.add_worksheet(name: @post.title) do |sheet|
+   sheet.add_row ["ID", "Title", "Content"]
+   sheet.add_row [@post.id, @post.title, @post.content]
+   sheet.add_row []
+   sheet.add_row ["Comments"]
+
+   sheet.add_row ["ID", "Post_ID", "Content", "Commentable_ID", "Commentable_Type"]
+
+   @post.comments.each do |comment|
+     sheet.add_row [comment.id, comment.post_id, comment.content, comment.commentable_id, comment.commentable_type]
+   end
+ end

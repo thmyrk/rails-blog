@@ -19,7 +19,12 @@ module Api
       def update
         post = Posts::UseCases::Update.new(update_params).call
         render status: :ok, json: Posts::Presenter.new(post).build(:all_fields)
+      end
 
+      def export_to_xlsx
+        @post = RepositoryRegistry.for(:posts).find_with_comments(params[:id])
+
+        render xlsx: "post", template: Rails.root.join("app", "concepts", "posts", "templates", "post")
       end
 
       private

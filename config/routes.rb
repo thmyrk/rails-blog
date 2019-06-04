@@ -3,6 +3,9 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :posts, only: %i[create show destroy update] do
+        member do
+          get :export_to_xlsx
+        end
       end
 
       resources :comments, only: %i[create show destroy update]
