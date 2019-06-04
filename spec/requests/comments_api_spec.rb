@@ -109,4 +109,95 @@ RSpec.describe "Comments API" do
       it_behaves_like "comments invalid parameter response", :commentable_type, "invalid"
     end
   end
+
+  describe "GET #show" do
+    subject { get "/api/v1/comments/#{comment_id}" }
+
+    let(:show_response_keys) { %w[id post_id content commentable_id commentable_type] }
+    let(:comment_response) { parsed_response["comment"] }
+    let(:comment_object) { create(:comment) }
+    let(:comment_id) { comment_object.id }
+
+    context "when given id exists" do
+      describe "response" do
+        before { subject }
+        it { expect(response).to have_http_status(200) }
+        it { expect(comment_response.keys).to match_array(show_response_keys) }
+        it { expect(comment_response["id"]).to eq(comment_object.id) }
+        it { expect(comment_response["content"]).to eq(comment_object.content) }
+        it { expect(comment_response["commentable_id"]).to eq(comment_object.commentable_id) }
+        it { expect(comment_response["commentable_type"]).to eq("post") }
+      end
+    end
+
+    context "when invalid id given" do
+      let(:comment_id) { 9999 }
+
+      describe "response" do
+        before { subject }
+        it { expect(response).to have_http_status(404) }
+      end
+    end
+  end
+
+  describe "DELETE #destroy" do
+    subject { delete "/api/v1/comments/#{comment_id}" }
+
+    let!(:comment_object) { create(:comment) }
+    let(:comment_id) { comment_object.id }
+
+    context "when given id exists" do
+      it { expect { subject }.to change { RepositoryRegistry.for(:comments).count }.by(-1) }
+
+      describe "response" do
+        before { subject }
+        it { expect(response).to have_http_status(204) }
+      end
+    end
+
+    context "when given id doesn't exist" do
+      let(:comment_id) { 9999 }
+
+      it { expect { subject }.to change { RepositoryRegistry.for(:comments).count }.by(0) }
+      describe "response" do
+        before { subject }
+        it { expect(response).to have_http_status(404) }
+      end
+    end
+  end
+
+  describe "PATCH #update" do
+    subject { patch "/api/v1/comments/#{comment_id}", params: request_params }
+
+    let(:update_response_keys) { %w[id post_id content commentable_id commentable_type] }
+    let(:comment_response) { parsed_response["comment"] }
+    let(:content) { "new content" }
+    let!(:comment_object) { create(:comment) }
+    let(:comment_id) { comment_object.id }
+
+    let(:request_params) do
+      {
+        content: content
+      }
+    end
+
+    context "when the given id is valid" do
+      describe "response" do
+        before { subject }
+        it { expect(response).to have_http_status(200) }
+        it { expect(comment_response.keys).to match_array(update_response_keys) }
+        it { expect(comment_response["id"]).not_to be_nil }
+        it { expect(comment_response["content"]).to eq(content) }
+      end
+    end
+
+    context "when the given id is invalid" do
+      let(:comment_id) { 9999 }
+
+      describe "response" do
+        before { subject }
+        it { expect(response).to have_http_status(404) }
+      end
+    end
+  end
 end

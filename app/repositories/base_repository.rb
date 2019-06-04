@@ -7,6 +7,14 @@ class BaseRepository
     gateway.create!(params)
   end
 
+  def destroy!(object)
+    object.destroy!
+  end
+
+  def update!(object, params)
+    object.update!(params)
+  end
+
   def find(id)
     gateway.find(id)
   end
